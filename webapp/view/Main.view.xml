@@ -1,0 +1,100 @@
+<!--
+
+    Copyright (C) OUP company. All rights reserved.
+
+-->
+<mvc:View 
+    controllerName="oup.otc.zotcpodupld.controller.Main" 
+    xmlns:footerbar="sap.ushell.ui.footerbar"
+    xmlns:smartForm="sap.ui.comp.smartform"
+    xmlns:smartField="sap.ui.comp.smartfield" 
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:semantic="sap.m.semantic" 
+    xmlns:u="sap.ui.unified"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    displayBlock="true" 
+    xmlns="sap.m">
+
+    <Shell appWidthLimited="false">
+        <App>
+            <pages> 
+                <Page
+                    showNavButton="false" 
+                    showHeader="false"
+                    showFooter="{= ${oViewModel>/btnTestImport} || ${oViewModel>/btnImport} }"
+                    floatingFooter="true">
+                    
+                    <content>
+                        <smartForm:SmartForm id="idFilterBar" editable="true">
+                            
+			                <smartForm:Group label="POD Upload">
+                                <smartForm:GroupElement>
+                                    <smartField:SmartField 
+                                        id="idSalesOrganization" 
+                                        value="{SalesOrganization}"
+                                        contextEditable="true"
+                                        valueState="{oViewModel>/salesOrganizationVS}"
+                                        valueStateText="{i18n>salesOrganizationVST}"
+                                        editable="{oViewModel>/enableUpload}"/>
+                                </smartForm:GroupElement>
+
+                                <smartForm:GroupElement label="File">
+                                    <u:FileUploader 
+                                        id="fileUploader" 
+                                        name="myFileUpload" 
+                                        buttonOnly="false" 
+                                        change=".onFileChange" 
+                                        fileAllowed=".onFileAllowed" 
+                                        fileType="xls,xlsx,csv" 
+                                        icon="sap-icon://open-folder" 
+                                        sendXHR="true" 
+                                        tooltip="{i18n>fileToolTip}" 
+                                        uploadAborted="handleUploadAborted" 
+                                        uploadComplete="onUploadComplete" 
+                                        uploadOnChange="false" 
+                                        useMultipart="false" 
+                                        width="400px" 
+                                        buttonText="{i18n>btnFileUploadText}" 
+                                        typeMissmatch="onTypeMissmatch"
+                                        valueState="{oViewModel>/fileUploadVS}"
+                                        valueStateText="{i18n>fileUploadVST}"
+                                        enabled="{oViewModel>/enableUpload}">
+                                    </u:FileUploader>
+                                </smartForm:GroupElement>
+
+                                <smartForm:GroupElement>
+                                    <HBox>
+                                        <Button press=".onUploadPress" text="{i18n>upldSrcFileBtn}" enabled="{oViewModel>/enableUpload}" class="sapUiTinyMarginEnd" />
+                                        <Button press=".onResetPress" text="{i18n>resetBtn}" type="Emphasized" />
+                                    </HBox>
+                                </smartForm:GroupElement>
+                            </smartForm:Group>
+		                </smartForm:SmartForm>
+
+                        <MessageStrip 
+                            type="{oViewModel>/messageType}" 
+                            text="{oViewModel>/messageText}" 
+                            visible="{oViewModel>/messageVisible}" 
+                            class="sapUiSmallMargin">
+                        </MessageStrip>
+                        
+                        <VBox id="idWorkListTableContainer" />
+                    </content>
+
+                    <footer>
+                        <OverflowToolbar>
+                            <ToolbarSpacer/>
+                            <!-- <Button press=".onPressImport" text="{i18n>impSrcFileBtn}" /> -->
+                            <Button enabled="{oViewModel>/btnTestImport}" id="idBtnTest" press=".onPressTestImport" text="{i18n>testImpSrcFileBtn}" />
+                            <Button enabled="{oViewModel>/btnImport}" id="idBtnImport" press=".onPressImport" text="{i18n>impSrcFileBtn}" />
+                        </OverflowToolbar>
+                    </footer>
+
+                </Page>
+            </pages>
+        </App>
+    </Shell>
+
+</mvc:View>
